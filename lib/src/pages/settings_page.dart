@@ -12,7 +12,6 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   bool _colorSecundario;
   int _genero;
-  String _nombre;
 
   TextEditingController _textEditingController;
   final prefs = new PreferenciasUsuario();
@@ -20,6 +19,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
+    prefs.ultimaPagina = SettingsPage.routeName;
 
     _colorSecundario = prefs.colorSecundario;
     _genero = prefs.genero;
