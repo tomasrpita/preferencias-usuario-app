@@ -10,26 +10,28 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  final prefs = new PreferenciasUsuario();
-
-  bool _colorSecundario = false;
+  bool _colorSecundario;
   int _genero;
-  String _nombre = 'Tomás';
+  String _nombre;
 
   TextEditingController _textEditingController;
+  final prefs = new PreferenciasUsuario();
 
   @override
   void initState() {
     super.initState();
 
+    _colorSecundario = prefs.colorSecundario;
     _genero = prefs.genero;
-    _textEditingController = new TextEditingController(text: _nombre);
+    _textEditingController =
+        new TextEditingController(text: prefs.nombreUsuario);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: (prefs.colorSecundario) ? Colors.teal : Colors.blue,
         title: Text('Ajustes'),
       ),
       body: ListView(
@@ -44,6 +46,7 @@ class _SettingsPageState extends State<SettingsPage> {
             value: _colorSecundario,
             onChanged: (bool value) {
               _colorSecundario = value;
+              prefs.colorSecundario = value;
               setState(() {});
             },
             title: Text('Color Secundario'),
@@ -68,7 +71,9 @@ class _SettingsPageState extends State<SettingsPage> {
               decoration: InputDecoration(
                   labelText: 'Nombre',
                   helperText: 'Nombre de la persona usando el teléfono'),
-              onChanged: (value) {},
+              onChanged: (value) {
+                prefs.nombreUsuario = value;
+              },
             ),
           )
         ],
@@ -77,7 +82,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  void _setSelectedRadio(int value) async {
+  void _setSelectedRadio(int value) {
     prefs.genero = value;
 
     _genero = value;
